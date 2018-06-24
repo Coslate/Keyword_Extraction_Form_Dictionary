@@ -15,13 +15,13 @@ from pathlib import Path
 #     Main-Routine      #
 #########################
 def main():
-    (text_file, keyword_file, topn, is_debug, out_name, stop_file, out_dir) = ArgumentParser()
+    (text_file, keyword_file, topn, is_debug, out_name, stop_file, out_dir, out_img_folder) = ArgumentParser()
     out_name_keyword       = out_name+'.keyword_final'
     out_name_tfidf_keyword = out_name+'.keyword_tfidf'
     out_name_img           = out_name+'.wordcloud_final.png'
     mark_img_full_path = "../Word2Vec/cloud.png"
     font_full_path     = "../Word2Vec/NotoSerifCJKtc-hinted/NotoSerifCJKtc-Regular.otf"
-    out_img_name_path  = "../Word2Vec/Generate_WC_Image"
+    out_img_name_path  = "../Word2Vec/"+out_img_folder
     out_img_full_path  = path.join(out_img_name_path, out_name_img)
 
     if(stop_file == ""):
@@ -96,6 +96,7 @@ def ArgumentParser():
     out_name          = ""
     stop_file         = ""
     out_dir           = "."
+    out_img_folder    = ""
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--text_file"        , "-text_file"     , help="The text file to train.")
@@ -105,6 +106,7 @@ def ArgumentParser():
     parser.add_argument("--out_name"         , "-out_name"      , help="The output name of the keyword file word_cloud image")
     parser.add_argument("--stop_file"        , "-stop_word_file", help="The stop word file. Default is ../Word_Segmentation/stopword_lib/stopwords.txt")
     parser.add_argument("--out_dir"          , "-odir"          , help="The output directory of the keyword")
+    parser.add_argument("--out_img_folder"   , "-out_img_fold" , help="The output folder name of the generated wordcloud image")
 
     args = parser.parse_args()
     if args.text_file:
@@ -128,7 +130,10 @@ def ArgumentParser():
     if args.out_dir:
         out_dir = args.out_dir
 
-    return (text_file, keyword_file, topn, is_debug, out_name, stop_file, out_dir)
+    if args.out_img_folder:
+        out_img_folder = args.out_img_folder
+
+    return (text_file, keyword_file, topn, is_debug, out_name, stop_file, out_dir, out_img_folder)
 
 def GenDictWithMaxValue(list_of_tuples):
     ans_dict = {}
